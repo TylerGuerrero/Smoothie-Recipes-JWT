@@ -10,9 +10,9 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        minLenght: 6
+        minlength: 6
     }
-}, {createdAt: true})
+}, {timestamps: {createdAt: true}})
 
 const User = model('User', userSchema)
 
