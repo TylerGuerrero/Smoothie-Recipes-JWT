@@ -1,11 +1,19 @@
+const User = require('../models/User');
+
 const signup_get = (req, res) => {
     res.render('signup')
 }
 
-const signup_post = (req, res) => {
+const signup_post = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
-    res.send('signup post')
+
+    try {   
+        const user = await User.create({email, password})
+        res.status(201).json(user)
+    } catch (err) {
+        console.log(err);
+        res.status(400).send('user not created')
+    }   
 }
 
 const login_get = (req, res) => {
