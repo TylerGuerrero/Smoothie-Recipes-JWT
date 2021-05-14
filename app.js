@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+
 const config = require('./config/Config');
+const authRoutes = require('./routes/authRouter')
 
 const app = express();
 
 const options = {
     useNewUrlParser: true, 
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 }
 
 mongoose.connect(config.database, options).catch((err) => {
@@ -36,6 +39,8 @@ app.get('/', (req, res) => {
 app.get('/smoothies', (req, res) => {
     res.render('smoothies');
 })
+
+app.use('/', authRoutes)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
