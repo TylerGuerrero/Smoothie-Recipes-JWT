@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const morgan = require('morgan');
 
 const config = require('./config/Config');
 const authRoutes = require('./routes/authRouter')
@@ -25,12 +26,13 @@ mongoose.connection.once('open', () => {
     console.log('MongoDB connected');
 })
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
     res.render('home');
