@@ -34,9 +34,6 @@ userSchema.pre('save', async function(next) {
     } catch (err) {
         console.log(err);
     }
-
-    console.log('user about to be created and saved', this)
-    next();
 })
 
 const User = model('User', userSchema)
