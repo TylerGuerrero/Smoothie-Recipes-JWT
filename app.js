@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const { requireAuth } = require('./middleware/AuthMiddleWare')
 
 const config = require('./config/Config');
 const authRoutes = require('./routes/authRouter')
@@ -40,14 +41,11 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.get('/smoothies', (req, res) => {
+app.get('/smoothies', requireAuth, (req, res) => {
     res.render('smoothies');
 })
 
 app.use('/', authRoutes);
-
-
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
