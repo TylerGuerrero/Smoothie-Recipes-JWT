@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-const { requireAuth } = require('./middleware/AuthMiddleWare')
 
+const { requireAuth, checkUser } = require('./middleware/AuthMiddleWare')
 const config = require('./config/Config');
 const authRoutes = require('./routes/authRouter')
 
@@ -36,6 +36,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(cookieParser())
+
+app.get('*', checkUser)
 
 app.get('/', (req, res) => {
     res.render('home');
